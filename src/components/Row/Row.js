@@ -1,10 +1,29 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState,useEffect } from 'react'
+import {FaHeart,FaRegHeart } from 'react-icons/fa'
+import { Movie } from '../Movie/Movie';
 
-const Row = () => {
+const Row = ({title,fetchURL}) => {
+    const [movies,setMovies] = useState([]);
+
+    useEffect(()=>{
+        axios.get(fetchURL).then((response)=>{
+            setMovies(response.data.results)
+        })
+    },[fetchURL])
+
+    console.log(movies)
   return (
-    <>
-    
-    </>
+    <div>
+    <h2 className='text-white font-bold md:text-xl p-4'>{title}</h2>
+    <div className='relative flex items-center'>
+        <div id={'slider'}>
+            {movies.map((item,id) => (
+                <Movie item={item}/>
+                ))}
+        </div>
+    </div>
+    </div>
   )
 }
 
